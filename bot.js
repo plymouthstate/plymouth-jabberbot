@@ -1,5 +1,5 @@
-var config = require('./config');
-var xmpp = require('simple-xmpp'),
+var config = require("./config");
+var xmpp = require("simple-xmpp"),
     sys  = require("util");
 
 var dgram = require('dgram');
@@ -44,7 +44,13 @@ function send_batman_ping() {
 var server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
-    xmpp.send(settings.to, "[dbg] " + msg);
+	msg = JSON.parse( msg );
+	to = msg.target || settings.to;
+	server = msg.server;
+	if( server ) {
+		server = ':' + server;
+	}//end if
+    xmpp.send(to, "[dbg" + server + "] " + msg.message);
 });
 
 server.on("listening", function () {
