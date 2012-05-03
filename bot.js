@@ -16,29 +16,29 @@ var settings = {
 };
 
 xmpp.on('online', function() {
-    console.log('Yes, I\'m connected!', arguments);
+	console.log('Yes, I\'m connected!', arguments);
 	send_batman_ping();
 });
 
 
 xmpp.on('chat', function(from, message) {
-    console.log("%s is saying %s", from, message);
+	console.log("%s is saying %s", from, message);
 });
 
 
 xmpp.on('buddy', function(jid, state) {
-    console.log('%s is in %s state', jid, state);
+	console.log('%s is in %s state', jid, state);
 });
 
 
 xmpp.on('stanza', function(stanza) {
-    console.log("the stanza");
+	console.log("the stanza");
 });
 
 xmpp.connect(settings.credentials);
 
 function send_batman_ping() {
-    xmpp.send(settings.to, "[dbg] bot has come online");
+	xmpp.send(settings.to, "[dbg] bot has come online");
 }
 
 var server = dgram.createSocket("udp4");
@@ -59,7 +59,7 @@ server.on("message", function (msg, rinfo) {
 		origin_server = ':' + msg.server;
 	}//end if
 
-    xmpp.send(to, "[dbg" + origin_server + "] " + msg.message);
+	xmpp.send(to, "[dbg" + origin_server + "] " + msg.message);
 });
 
 server.on("listening", function () {
@@ -67,4 +67,4 @@ server.on("listening", function () {
 	console.log("server listening " + address.address + ":" + address.port);
 });
 
-server.bind(process.env.bot_listen_port);
+server.bind( process.env.bot_listen_port );
