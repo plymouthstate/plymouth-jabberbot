@@ -44,13 +44,22 @@ function send_batman_ping() {
 var server = dgram.createSocket("udp4");
 
 server.on("message", function (msg, rinfo) {
+	var origin_server = '';
+	var to = '';
+
 	msg = JSON.parse( msg );
-	to = msg.target || settings.to;
-	server = msg.server;
-	if( server ) {
-		server = ':' + server;
+
+	if( msg.data ) {
+		to = msg.data.target || settings.to;
+	} else {
+		to = settings.to;
+	}//end else
+
+	if( msg.server ) {
+		origin_server = ':' + msg.server;
 	}//end if
-    xmpp.send(to, "[dbg" + server + "] " + msg.message);
+
+    xmpp.send(to, "[dbg" + origin_server + "] " + msg.message);
 });
 
 server.on("listening", function () {
